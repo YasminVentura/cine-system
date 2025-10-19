@@ -3,7 +3,6 @@ package logicaDoSistema;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class SistemaIngressos {
     private List<Filme> filmes;
 
@@ -21,9 +20,9 @@ public class SistemaIngressos {
         int resp, salaEscolhida, linha, coluna, tipoIngresso;
 
         while (true) {
-            System.out.println("\nQual filme deseja asistir?");
+            System.out.println("\nQual filme deseja assistir?");
             for (int i = 0; i < this.filmes.size(); i++) {
-                System.out.printf("[%d] %s\n", i,  filmes.get(i).getTitulo());
+                System.out.printf("[%d] %s\n", i, filmes.get(i).getTitulo());
             }
             System.out.println("[-1] Sair\n");
 
@@ -40,28 +39,33 @@ public class SistemaIngressos {
                 continue;
             }
 
-            System.out.printf("\n%s - Escolha a sessão [0 a %d]:\n", filmes.get(resp).getTitulo(), filmes.get(resp).getSessoes().size()-1);
-            System.out.println(filmes.get(resp).getSessoes());
-            System.out.println();
+            System.out.printf("\n%s - Escolha a sessão:\n", filmes.get(resp).getTitulo());
+
+            List<Sessao> sessoes = filmes.get(resp).getSessoes();
+            for (int i = 0; i < sessoes.size(); i++) {
+                System.out.println("[" + i + "] " + sessoes.get(i));
+            }
 
             salaEscolhida = sc.nextInt();
             sc.nextLine();
 
-            if (salaEscolhida >= filmes.get(resp).getSessoes().size() || salaEscolhida < 0) {
+            if (salaEscolhida >= sessoes.size() || salaEscolhida < 0) {
                 System.out.println("Valor inválido! Tente novamente\n");
                 continue;
             }
 
+            Sessao sessaoEscolhida = sessoes.get(salaEscolhida);
             System.out.println("\nEscolha o assento informando a linha e a coluna [0 a 4]:");
+
             while (true) {
-                filmes.get(resp).getSessoes().get(salaEscolhida).mostrarAssentos();
+                sessaoEscolhida.mostrarAssentos();
                 System.out.println();
 
                 linha = sc.nextInt();
                 coluna = sc.nextInt();
                 sc.nextLine();
 
-                if (filmes.get(resp).getSessoes().get(salaEscolhida).reservarAssento(linha, coluna)) {
+                if (sessaoEscolhida.reservarAssento(linha, coluna)) {
                     break;
                 } else {
                     System.out.println("Assento ocupado ou inválido. Tente novamente!\n");
@@ -69,20 +73,28 @@ public class SistemaIngressos {
             }
 
             do {
-                System.out.println("\nTipo de ingresso? [inteiro = 0 / estudante = 1]\n");
+                System.out.println("\nTipo de ingresso? [0=inteiro / 1=estudante / 2=vip]\n");
                 tipoIngresso = sc.nextInt();
                 sc.nextLine();
-            } while (tipoIngresso != 0 && tipoIngresso != 1);
+            } while (tipoIngresso < 0 || tipoIngresso > 2);
 
-            var valorIngresso = filmes.get(resp).getSessoes().get(salaEscolhida).calcularPreco(tipoIngresso);
+            double precoBase = sessaoEscolhida.getPrecoBase();
+            Ingresso ingresso = tipoIngresso == 0
+                    ? new IngressoInteiro(precoBase)
+                    : tipoIngresso == 1
+                            ? new IngressoEstudante(precoBase)
+                            : new IngressoVip(precoBase);
+
+            double valorIngresso = ingresso.calcularPreco();
 
             System.out.println("\n______________________________________________\n");
             System.out.println("Compra Confirmada! Informações: ");
-            System.out.printf("%s - %s\nValor a pagar: %.2f\n", filmes.get(resp).getTitulo(), filmes.get(resp).getSessoes().get(salaEscolhida), valorIngresso);
+            System.out.printf("%s - %s\n%s\nValor a pagar: R$ %.2f\n",
+                    filmes.get(resp).getTitulo(),
+                    sessaoEscolhida,
+                    ingresso,
+                    valorIngresso);
             System.out.println("\n______________________________________________\n");
-
         }
-
     }
-
 }

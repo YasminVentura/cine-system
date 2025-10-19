@@ -20,6 +20,10 @@ public class Sessao {
 
     }
 
+    public double getPrecoBase() {
+        return precoBase;
+    }
+
     public void mostrarAssentos() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -30,7 +34,7 @@ public class Sessao {
     }
 
     public boolean reservarAssento(int linha, int coluna) {
-        if (linha >= 0 && linha < 5 && coluna >= 0 && coluna < 5){
+        if (linha >= 0 && linha < 5 && coluna >= 0 && coluna < 5) {
             if (assentos[linha][coluna] == "[ L ]") {
                 this.assentos[linha][coluna] = "[ - ]";
                 return true;
@@ -39,16 +43,8 @@ public class Sessao {
         return false;
     }
 
-    public double calcularPreco(int tipoIngresso) {
-        if (tipoIngresso == 1) {
-            return  precoBase * 0.4;
-        } else {
-            return precoBase;
-        }
-    }
-
     @Override
     public String toString() {
-        return  "Sala " + sala + " - " + horario + " - R$" + precoBase;
+        return "Sala " + sala + " - " + horario + " - R$" + precoBase;
     }
 }
