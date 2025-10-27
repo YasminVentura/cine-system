@@ -26,10 +26,11 @@ public class SistemaIngressos {
     }
 
     public void efetuarCompra(Scanner sc) {
-        int resp, salaEscolhida, linha, coluna, tipoIngresso = -1;
+        int resp, salaEscolhida, linha, coluna;
 
         while (true) {
             try {
+                int tipoIngresso = -1;
                 System.out.println("\nQual filme deseja assistir?");
                 for (int i = 0; i < this.filmes.size(); i++) {
                     System.out.printf("[%d] %s\n", i, filmes.get(i).getTitulo());
