@@ -1,4 +1,4 @@
-package logicaDoSistema;
+package ingresso;
 
 public class IngressoEstudante extends Ingresso {
 

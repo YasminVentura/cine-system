@@ -1,4 +1,4 @@
-package logicaDoSistema;
+package ingresso;
 
 public abstract class Ingresso {
     protected double precoBase;
