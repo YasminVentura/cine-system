@@ -9,8 +9,10 @@ import ingresso.IngressoVip;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 import exception.AssentoInvalidoException;
+import exception.ValorEntradaInvalidoException;
 
 public class SistemaIngressos {
     private List<Filme> filmes;
@@ -113,8 +115,8 @@ public class SistemaIngressos {
                         ingresso,
                         valorIngresso);
                 System.out.println("\n______________________________________________\n");
-            } catch (exception.ValorEntradaInvalidoException e) {
-                System.out.println(e.getMessage() + "\n");
+            } catch (ValorEntradaInvalidoException | InputMismatchException e) {
+                System.out.println("Entrada inválida! Tente novamente.");
             }
         }
     }
