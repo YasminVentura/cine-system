@@ -39,8 +39,14 @@ public class SistemaIngressos {
                 }
                 System.out.println("[-1] Sair\n");
 
-                resp = sc.nextInt();
-                sc.nextLine();
+                try {
+                    resp = sc.nextInt();
+                    sc.nextLine();
+                } catch (InputMismatchException e) {
+                    System.out.println("Entrada inválida! Tente novamente.");
+                    sc.nextLine();
+                    continue;
+                }
 
                 if (resp == -1) {
                     System.out.print("Até mais!");
